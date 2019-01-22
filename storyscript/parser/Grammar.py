@@ -190,10 +190,12 @@ class Grammar:
                      'finally_block?')
         self.ebnf.try_block = try_block
 
-    def block(self):
+    def when_block(self):
         self.ebnf._WHEN = 'when'
         when = 'when (path output|service)'
         self.ebnf.when_block = self.ebnf.simple_block(when)
+
+    def block(self):
         self.ebnf.indented_arguments = 'indent (arguments nl)+ dedent'
         block = ('rules nl, if_block, foreach_block, function_block, '
                  'arguments, indented_chain, chained_mutation, '
@@ -219,6 +221,7 @@ class Grammar:
         self.function_block()
         self.try_block()
         self.raise_statement()
+        self.when_block()
         self.block()
         self.ebnf.start = 'nl? block+'
         self.ebnf.ignore('_WS')
